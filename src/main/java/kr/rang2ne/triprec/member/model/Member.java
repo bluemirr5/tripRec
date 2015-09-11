@@ -17,6 +17,7 @@ public class Member {
     private String sex;
     private String nickName;
     private String password;
+    private Date joinTime;
 
     public String getId() {
         return id;
@@ -64,5 +65,13 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(Date joinTime) {
+        this.joinTime = joinTime;
     }
 }

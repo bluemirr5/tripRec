@@ -3,6 +3,7 @@ package kr.rang2ne.triprec.trip.model;
 import kr.rang2ne.triprec.member.model.Member;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,14 +18,15 @@ public class Trip {
     private Long id;
     private String name;
     private String desc;
-    private Date registerTime;
+    private Date regTime;
+    private Date modTime;
     private boolean published;
 
     @ManyToOne
     private Member member;
 
     @OneToMany(mappedBy = "trip")
-    private List<Scene> scenes;
+    private List<Scene> scenes = new ArrayList<Scene>();
 
     public List<Scene> getScenes() {
         return scenes;
@@ -58,12 +60,20 @@ public class Trip {
         this.desc = desc;
     }
 
-    public Date getRegisterTime() {
-        return registerTime;
+    public Date getRegTime() {
+        return regTime;
     }
 
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
+    public void setRegTime(Date regTime) {
+        this.regTime = regTime;
+    }
+
+    public Date getModTime() {
+        return modTime;
+    }
+
+    public void setModTime(Date modTime) {
+        this.modTime = modTime;
     }
 
     public boolean isPublished() {
@@ -81,4 +91,6 @@ public class Trip {
     public void setMember(Member member) {
         this.member = member;
     }
+
+
 }
