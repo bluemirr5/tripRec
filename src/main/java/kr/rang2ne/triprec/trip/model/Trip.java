@@ -1,0 +1,84 @@
+package kr.rang2ne.triprec.trip.model;
+
+import kr.rang2ne.triprec.member.model.Member;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by rang on 2015-09-11.
+ *
+ */
+@Entity
+public class Trip {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private String desc;
+    private Date registerTime;
+    private boolean published;
+
+    @ManyToOne
+    private Member member;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Scene> scenes;
+
+    public List<Scene> getScenes() {
+        return scenes;
+    }
+
+    public void setScenes(List<Scene> scenes) {
+        this.scenes = scenes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public Date getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+}
