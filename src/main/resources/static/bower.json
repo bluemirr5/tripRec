@@ -1,0 +1,18 @@
+{
+  "name": "TripRec",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bluemirr5/tripRec",
+  "authors": [
+    "wgs <bluemirr5@gmail.com>"
+  ],
+  "description": "Trip Record Site",
+  "main": "login.html",
+  "keywords": [
+    "trip"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "1.4.5",
+    "bootstrap": "~3.3.5"
+  }
+}

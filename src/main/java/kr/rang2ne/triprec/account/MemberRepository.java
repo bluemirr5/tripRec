@@ -1,6 +1,6 @@
-package kr.rang2ne.triprec.member;
+package kr.rang2ne.triprec.account;
 
-import kr.rang2ne.triprec.member.model.Member;
+import kr.rang2ne.triprec.account.model.Member;
 import org.springframework.data.repository.CrudRepository;
 
 /**

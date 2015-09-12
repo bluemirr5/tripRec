@@ -1,6 +1,6 @@
 package kr.rang2ne.triprec.trip.model;
 
-import kr.rang2ne.triprec.member.model.Member;
+import kr.rang2ne.triprec.account.model.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;

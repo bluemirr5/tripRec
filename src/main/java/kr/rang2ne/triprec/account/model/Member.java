@@ -1,4 +1,4 @@
-package kr.rang2ne.triprec.member.model;
+package kr.rang2ne.triprec.account.model;
 
 
 import javax.persistence.Entity;
