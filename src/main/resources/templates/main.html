@@ -28,7 +28,16 @@ main page|||<span th:text="${session.auth.name}">hgd</span> login...
         <span ng-if="isOpenAddLayer">Close</span>
     </button>
     <div ng-show="isOpenAddLayer">
-        layer
+        <label for="name">Name : </label><input type="text" ng-model="trip.name" id="name"/> <br />
+        <label for="desc">Description : </label><input type="text" ng-model="trip.desc" id="desc"/> <br />
+        <label for="published">Description : </label><input type="checkbox" ng-model="trip.published" id="published"/><br />
+        <hr />
+            <button ng-click="addScene()">Add Scene</button><br />
+            <div ng-repeat="scene in trip.scenes">
+                <input type="text" ng-model="scene.desc" />
+            </div>
+        <hr />
+        <button ng-click="addTrip()">Add</button>
     </div>
 
     <!-- List -->

@@ -16,6 +16,31 @@ var Member = (function () {
     };
 })();
 
+var Trip = (function () {
+    return function () {
+        this.id=0;
+        this.name='';
+        this.desc='';
+        this.regTime=null;
+        this.modTime=null;
+        this.published=false;
+        this.scenes=[];
+    };
+})();
+
+var Scene = (function () {
+    return function () {
+        this.orderNum=0;
+        this.desc='';
+        this.thumbUrl='';
+        this.pictureUrl='';
+        this.locationTag='';
+        this.latitude=0;
+        this.longitude=0;
+        this.sceneTime=null;
+    };
+})();
+
 function sendPost(url, arg){
     // Form객체를 만들고 속성값들을 추가함
     var oForm = document.createElement('form');
