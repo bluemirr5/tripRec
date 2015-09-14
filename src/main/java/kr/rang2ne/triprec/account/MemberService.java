@@ -13,6 +13,10 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    public Member findOne(String id) {
+        return memberRepository.findOne(id);
+    }
+
     public LoginDto login(String id, String password) throws Exception {
         LoginDto result = null;
         Member member = memberRepository.findOne(id);

@@ -9,8 +9,9 @@ angular.module('mainModule', [
 
 angular.module('mainModule.controllers', [])
     .controller('mainCtrl', function($scope) {
-        if(pageData) {
-            $scope.services = pageData;
+        $scope.isOpenAddLayer = false;
+        if(pageData_trips) {
+            $scope.trips = pageData_trips;
         }
     });
 

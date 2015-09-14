@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %5p | %-55logger{55} | %m %n</pattern>
+        </encoder>
+    </appender>
+    
+<!--     <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!--         <Append>true</Append> -->
+<!--         <File>/stg/usr/local/web/apache-tomcat-7.0.42/instance/astron/logs/astron_was_access.log</File> -->
+<!--         <encoder> -->
+<!--             <pattern>%d %-5p: [%c] %m%n</pattern> -->
+<!--         </encoder> -->
+<!--         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+<!--             <fileNamePattern>/stg/usr/local/web/apache-tomcat-7.0.42/instance/astron/logs/astron_was_access.%d{yyyyMMdd}.log</fileNamePattern> -->
+<!--         </rollingPolicy> -->
+<!--     </appender> -->
+    
+    <root level="info">
+        <appender-ref ref="console" />
+    </root>
+    
+    <logger name="kr.rang2ne" additivity="false" level="debug">
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="org.springframework" additivity="false" level="debug">
+        <appender-ref ref="console" />
+    </logger>
+    
+</configuration>

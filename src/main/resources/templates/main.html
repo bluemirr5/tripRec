@@ -15,18 +15,29 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script th:inline="javascript">
-        var pageData = [[${trips}]];
-        console.log(pageData);
+        var pageData_trips = [[${trips}]];
+        console.log(pageData_trips);
     </script>
 </head>
 <body>
-main page<br/>
-<span th:text="${session.auth.name}">hgd</span> login...
+main page|||<span th:text="${session.auth.name}">hgd</span> login...
 <div ng-controller="mainCtrl">
-    <p>service list</p>
-    <div ng-repeat="service in services">
-        <p ng-bind="service.name"></p>
+    <!-- Add Layer -->
+    <button ng-click="isOpenAddLayer = !isOpenAddLayer">
+        <span ng-if="!isOpenAddLayer">Open</span>
+        <span ng-if="isOpenAddLayer">Close</span>
+    </button>
+    <div ng-show="isOpenAddLayer">
+        layer
     </div>
+
+    <!-- List -->
+    <h3>MyTrip List</h3>
+    <hr />
+    <div ng-repeat="trip in trips">
+        <p ng-bind="trip.name"></p>
+    </div>
+
 </div>
 
 <script th:src="@{/components/jquery/dist/jquery.min.js}"></script>
