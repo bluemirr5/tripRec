@@ -14,6 +14,6 @@ import java.util.List;
 public interface TripRepository extends CrudRepository<Trip, Long> {
     List<Trip> findByMember(Member member);
 
-    @Query("select t from Trip t where t.member.id = :id")
-    Trip findByMemberWith(@Param("id")String id);
+    @Query("SELECT t FROM Trip t WHERE t.member.id = :id")
+    List<Trip> findByMemberWith(@Param("id")String id);
 }

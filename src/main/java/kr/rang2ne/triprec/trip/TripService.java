@@ -4,10 +4,14 @@ import kr.rang2ne.triprec.account.MemberRepository;
 import kr.rang2ne.triprec.account.model.Member;
 import kr.rang2ne.triprec.trip.model.Scene;
 import kr.rang2ne.triprec.trip.model.Trip;
+import kr.rang2ne.triprec.view.model.SceneDto;
+import kr.rang2ne.triprec.view.model.TripDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +19,7 @@ import java.util.List;
  * Created by rang on 2015-09-11.
  */
 @Service
+@Transactional
 public class TripService  {
     @Autowired
     private MemberRepository memberRepository;
@@ -25,28 +30,60 @@ public class TripService  {
     @Autowired
     private SceneRepository sceneRepository;
 
-//    @Transactional(readOnly = true)
-    public List<Trip> getTrips(String memberId) throws Exception {
-        Member member = new Member();
-        member.setId(memberId);
-        System.out.println("in service end");
-        return tripRepository.findByMember(member);
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public void insert(TripDto.Create dto, Member member) throws Exception {
+        Trip trip = modelMapper.map(dto, Trip.class);
+        trip.setMember(member);
+        trip.setRegTime(Calendar.getInstance().getTime());
+        trip.setModTime(Calendar.getInstance().getTime());
+
+//        List<Scene> scenes = trip.getScenes();
+//        scenes.forEach(scene -> {
+//            scene.setTrip(trip);
+//            sceneRepository.save(scene);
+//        });
+        tripRepository.save(trip);
     }
 
-    @Transactional
-    public void save(Trip trip) throws Exception {
-        if(trip.getId() == 0) { // 등록시
-            trip.setRegTime(Calendar.getInstance().getTime());
-            // Delete Scenes
-            Trip findedTrip = tripRepository.findByMemberWith(trip.getMember().getId());
+    public void update(TripDto.Update dto, Member member) throws Exception {
+        Trip trip = modelMapper.map(dto, Trip.class);
+        Trip findedTrip = tripRepository.findOne(dto.getId());
+        if(findedTrip != null) {
             sceneRepository.delete(findedTrip.getScenes());
-        } else { // 수정시
-            Member member = memberRepository.findOne(trip.getMember().getId());
-            trip.setMember(member);
         }
+        Member findmember = memberRepository.findOne(trip.getMember().getId());
+        trip.setMember(findmember);
+
         trip.setModTime(Calendar.getInstance().getTime());
         List<Scene> scenes = trip.getScenes();
-        scenes.forEach(scene -> sceneRepository.save(scene));
+        scenes.forEach(scene -> {
+            scene.setTrip(trip);
+            sceneRepository.save(scene);
+        });
         tripRepository.save(trip);
+    }
+
+    public void delete(Long id) throws Exception {
+        Trip trip = new Trip();
+        trip.setId(id);
+        sceneRepository.deleteByTrip(trip);
+        tripRepository.delete(id);
+    }
+
+    public List<TripDto.SelectList> getTrips(String memberId) throws Exception {
+        List<Trip> trips = tripRepository.findByMemberWith(memberId);
+
+        List<TripDto.SelectList> selectList = new ArrayList<>();
+        trips.forEach(trip -> {
+            List<SceneDto.SelectList> sceneLists = new ArrayList<>();
+            trip.getScenes().forEach(scene -> sceneLists.add(modelMapper.map(scene, SceneDto.SelectList.class)));
+            TripDto.SelectList tripForSelected = modelMapper.map(trip, TripDto.SelectList.class);
+            tripForSelected.setScenes(sceneLists);
+            selectList.add(tripForSelected);
+        });
+
+        return selectList;
     }
 }

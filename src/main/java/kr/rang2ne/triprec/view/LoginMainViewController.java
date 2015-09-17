@@ -2,14 +2,13 @@ package kr.rang2ne.triprec.view;
 
 import kr.rang2ne.triprec.account.MemberService;
 import kr.rang2ne.triprec.account.model.LoginDto;
-import kr.rang2ne.triprec.account.model.Member;
-import kr.rang2ne.triprec.common.ApiResponse;
 import kr.rang2ne.triprec.trip.TripService;
-import kr.rang2ne.triprec.trip.model.Trip;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -48,21 +47,5 @@ public class LoginMainViewController {
             model.addAttribute("loginStatus", result.getResultCode());
             return "login";
         }
-    }
-
-    @RequestMapping(
-            value="/addTrip",
-            method = RequestMethod.POST
-    )
-    @ResponseBody
-    public ApiResponse addTrip(
-        @RequestBody Trip trip,
-        HttpSession session
-    ) throws Exception {
-        Member member = (Member) session.getAttribute("auth");
-        trip.setMember(member);
-        tripService.save(trip);
-        System.out.println(trip.getName());
-        return ApiResponse.makeSuccess(null);
     }
 }

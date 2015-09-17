@@ -20,31 +20,39 @@
     </script>
 </head>
 <body>
-main page|||<span th:text="${session.auth.name}">hgd</span> login...
+main page || <span th:text="${session.auth.name}">hgd</span> login...
 <div ng-controller="mainCtrl">
-    <!-- Add Layer -->
+    <!-- save Layer -->
     <button ng-click="isOpenAddLayer = !isOpenAddLayer">
         <span ng-if="!isOpenAddLayer">Open</span>
         <span ng-if="isOpenAddLayer">Close</span>
     </button>
-    <div ng-show="isOpenAddLayer">
+    <div ng-if="isOpenAddLayer">
+        <!-- trip -->
         <label for="name">Name : </label><input type="text" ng-model="trip.name" id="name"/> <br />
         <label for="desc">Description : </label><input type="text" ng-model="trip.desc" id="desc"/> <br />
         <label for="published">Description : </label><input type="checkbox" ng-model="trip.published" id="published"/><br />
+        <!-- trip -->
+
+        <!-- scenes -->
         <hr />
             <button ng-click="addScene()">Add Scene</button><br />
             <div ng-repeat="scene in trip.scenes">
                 <input type="text" ng-model="scene.desc" />
             </div>
         <hr />
-        <button ng-click="addTrip()">Add</button>
+        <!-- scenes -->
+
+        <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
     </div>
+    <!-- save Layer -->
 
     <!-- List -->
     <h3>MyTrip List</h3>
     <hr />
     <div ng-repeat="trip in trips">
-        <p ng-bind="trip.name"></p>
+        <span ng-bind="trip.name"></span><button ng-click="detail(trip)">detail</button>
+
     </div>
 
 </div>

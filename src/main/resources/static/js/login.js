@@ -13,4 +13,8 @@ angular.module('loginModule.controllers', [])
         $scope.loginClick = function () {
             sendPost("/main", "id="+$scope.member.id+"&password="+$scope.member.password);
         };
+
+        //for test
+        $scope.member.id = 'bluemirr5';
+        $scope.member.password = '1234';
     });

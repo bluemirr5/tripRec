@@ -15,7 +15,7 @@ angular.module('mainModule.controllers', [])
         $scope.isOpenAddLayer = false;
         $scope.trip = new Trip();
 
-        $scope.addTrip = function() {
+        $scope.saveTrip = function() {
             if($scope.trip.scenes) {
                 for(var i = 0; i < $scope.trip.scenes.length; i++) {
                     var scene = $scope.trip.scenes[i];
@@ -23,20 +23,73 @@ angular.module('mainModule.controllers', [])
                 }
             }
 
-            $http.post('/addTrip', $scope.trip)
-                .then(
+            if(!$scope.trip.id) {
+                $http.post('/trip', $scope.trip)
+                    .then(
+                        function(response){
+                            console.log(response);
+                            $http.get('/trips').then(
+                                function(response) {
+                                console.log('successed');
+                                console.log(response);
+                                    if(response.data) {
+                                        $scope.trips = response.data.resultContent;
+                                    }
+                                },
+                                function(response) {
+
+                                }
+                            )
+                        },
+                        function(response){
+                            console.log('fail');
+                            console.log(response);
+                        }
+                );
+            }else {
+                $http.put('/trip', $scope.trip)
+                    .then(
                     function(response){
-                        console.log('successed');
                         console.log(response);
+                        $http.get('/trips').then(
+                            function(response) {
+                                console.log('successed');
+                                console.log(response);
+                                if(response.data) {
+                                    $scope.trips = response.data.resultContent;
+                                }
+                            },
+                            function(response) {
+
+                            }
+                        )
                     },
                     function(response){
                         console.log('fail');
                         console.log(response);
                     }
-            );
+                );
+            }
         };
+
+        $scope.removeTrip = function() {
+            $http.delete('/trip/'+$scope.trip.id).then(
+                function(response) {
+                    console.log(response);
+                },
+                function(response) {
+                    console.log(response);
+                }
+            )
+        };
+
         $scope.addScene = function () {
             $scope.trip.scenes.push(new Scene());
         };
+
+        $scope.detail = function(trip) {
+            $scope.trip = trip;
+            $scope.isOpenAddLayer = true;
+        }
     });
 

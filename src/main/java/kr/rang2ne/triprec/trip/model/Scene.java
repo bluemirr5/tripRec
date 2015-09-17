@@ -27,6 +27,14 @@ public class Scene {
     @ManyToOne
     private Trip trip;
 
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+    }
+
     public Long getId() {
         return id;
     }
