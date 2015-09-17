@@ -33,7 +33,7 @@ angular.module('mainModule.controllers', [])
                                 console.log('successed');
                                 console.log(response);
                                     if(response.data) {
-                                        $scope.trips = response.data.resultContent;
+                                        $scope.trips = response.data;
                                     }
                                 },
                                 function(response) {
@@ -56,7 +56,7 @@ angular.module('mainModule.controllers', [])
                                 console.log('successed');
                                 console.log(response);
                                 if(response.data) {
-                                    $scope.trips = response.data.resultContent;
+                                    $scope.trips = response.data;
                                 }
                             },
                             function(response) {

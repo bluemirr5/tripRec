@@ -1,8 +1,13 @@
 package kr.rang2ne.triprec.account.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Created by rang on 2015-09-12.
  */
+@Data @AllArgsConstructor @NoArgsConstructor
 public class LoginDto {
     public static final int LOGIN_OK = 0;
     public static final int LOGIN_FAIL_ID = 1;
@@ -11,41 +16,4 @@ public class LoginDto {
     private int resultCode;
     private String resultMessage;
     private Member member;
-
-    public LoginDto() {}
-
-    public LoginDto(int resultCode, String resultMessage, Member member) {
-        this.resultCode = resultCode;
-        this.resultMessage = resultMessage;
-        this.member = member;
-    }
-
-    public LoginDto(int resultCode, String resultMessage) {
-        this.resultCode = resultCode;
-        this.resultMessage = resultMessage;
-    }
-
-    public int getResultCode() {
-        return resultCode;
-    }
-
-    public String getResultMessage() {
-        return resultMessage;
-    }
-
-    public void setResultMessage(String resultMessage) {
-        this.resultMessage = resultMessage;
-    }
-
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
 }

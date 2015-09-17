@@ -39,11 +39,11 @@ public class TripService  {
         trip.setRegTime(Calendar.getInstance().getTime());
         trip.setModTime(Calendar.getInstance().getTime());
 
-//        List<Scene> scenes = trip.getScenes();
-//        scenes.forEach(scene -> {
-//            scene.setTrip(trip);
-//            sceneRepository.save(scene);
-//        });
+        List<Scene> scenes = trip.getScenes();
+        scenes.forEach(scene -> {
+            scene.setTrip(trip);
+            sceneRepository.save(scene);
+        });
         tripRepository.save(trip);
     }
 

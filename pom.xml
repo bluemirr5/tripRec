@@ -50,6 +50,13 @@
 			<artifactId>modelmapper</artifactId>
 			<version>0.7.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.6</version>
+			<scope>provided</scope>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.h2database</groupId>

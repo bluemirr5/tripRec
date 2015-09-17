@@ -25,10 +25,10 @@ public class MemberService {
             if(member.getPassword().equals(encryptor.encrypt(password))) {
                 result = new LoginDto(LoginDto.LOGIN_OK, "OK", member);
             } else {
-                result = new LoginDto(LoginDto.LOGIN_FAIL_PASSWORD, "PASSWORD IS WRONG");
+                result = new LoginDto(LoginDto.LOGIN_FAIL_PASSWORD, "PASSWORD IS WRONG", null);
             }
         } else {
-            result = new LoginDto(LoginDto.LOGIN_FAIL_ID, "ID IS WRONG");
+            result = new LoginDto(LoginDto.LOGIN_FAIL_ID, "ID IS WRONG", null);
         }
         return result;
     }
