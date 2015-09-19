@@ -2,6 +2,7 @@ package kr.rang2ne.triprec.trip;
 
 import kr.rang2ne.triprec.account.MemberRepository;
 import kr.rang2ne.triprec.account.model.Member;
+import kr.rang2ne.triprec.common.FileInfoModel;
 import kr.rang2ne.triprec.trip.model.Scene;
 import kr.rang2ne.triprec.trip.model.Trip;
 import kr.rang2ne.triprec.view.model.SceneDto;
@@ -10,9 +11,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,5 +90,26 @@ public class TripService  {
         });
 
         return selectList;
+    }
+
+    public FileInfoModel uploadTempFile(MultipartFile uploadFile) throws Exception {
+        FileInfoModel fileInfo = null;
+
+        if(uploadFile != null && !uploadFile.isEmpty()){
+
+            String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+            String basePath = "D:\\develop\\sources\\myWork\\TripRec\\src\\main\\resources\\static\\images\\";
+            String path =  basePath + curDate + "\\";
+            //TODO static value change properties
+            //TODO force mkdir
+            String uploadFilePath = path + System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
+            uploadFile.transferTo(new File(uploadFilePath));
+            fileInfo = new FileInfoModel(
+                    uploadFile.getOriginalFilename(),
+                    uploadFilePath ,
+                    uploadFile.getSize());
+        }
+
+        return fileInfo;
     }
 }

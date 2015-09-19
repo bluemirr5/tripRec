@@ -39,6 +39,7 @@ main page || <span th:text="${session.auth.name}">hgd</span> login...
             <button ng-click="addScene()">Add Scene</button><br />
             <div ng-repeat="scene in trip.scenes">
                 <input type="text" ng-model="scene.desc" />
+                <input type="file" nv-file-select="" uploader="uploader" />
             </div>
         <hr />
         <!-- scenes -->
@@ -60,6 +61,7 @@ main page || <span th:text="${session.auth.name}">hgd</span> login...
 <script th:src="@{/components/jquery/dist/jquery.min.js}"></script>
 <script th:src="@{/components/bootstrap/dist/js/bootstrap.min.js}"></script>
 <script th:src="@{/components/angular/angular.min.js}"></script>
+<script th:src="@{/components/angular-file-upload/dist/angular-file-upload.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/common.js}"></script>
 </body>

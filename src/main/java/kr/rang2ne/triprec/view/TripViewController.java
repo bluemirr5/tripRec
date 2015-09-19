@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -70,5 +71,17 @@ public class TripViewController {
     ) throws Exception {
         Member member = (Member) session.getAttribute("auth");
         return new ResponseEntity(tripService.getTrips(member.getId()), HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value="/sceneimage",
+            method=RequestMethod.POST,
+            consumes="multipart/form-data"
+    )
+    @ResponseBody
+    public ResponseEntity postSceneImage (
+            @RequestParam MultipartFile file
+    ) throws Exception {
+        return new ResponseEntity(tripService.uploadTempFile(file), HttpStatus.OK);
     }
 }
