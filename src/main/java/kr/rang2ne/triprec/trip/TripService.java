@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Created by rang on 2015-09-11.
+ *
  */
 @Service
 @Transactional
@@ -98,15 +99,20 @@ public class TripService  {
         if(uploadFile != null && !uploadFile.isEmpty()){
 
             String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-            String basePath = "D:\\develop\\sources\\myWork\\TripRec\\src\\main\\resources\\static\\images\\";
-            String path =  basePath + curDate + "\\";
             //TODO static value change properties
-            //TODO force mkdir
-            String uploadFilePath = path + System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
+            String absolutePath = "D:/develop/sources/myWork/TripRec/src/main/resources";
+            String resourcePath = "/static/images/" + curDate + "/";
+
+            File directory = new File(absolutePath + resourcePath);
+            if(!(directory.exists() && directory.isDirectory())) {
+                directory.mkdir();
+            }
+            String newFileName = System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
+            String uploadFilePath = absolutePath + resourcePath + newFileName;
             uploadFile.transferTo(new File(uploadFilePath));
             fileInfo = new FileInfoModel(
                     uploadFile.getOriginalFilename(),
-                    uploadFilePath ,
+                    resourcePath + newFileName ,
                     uploadFile.getSize());
         }
 

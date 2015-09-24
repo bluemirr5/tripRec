@@ -27,7 +27,7 @@ main page || <span th:text="${session.auth.name}">hgd</span> login...
         <span ng-if="!isOpenAddLayer">Open</span>
         <span ng-if="isOpenAddLayer">Close</span>
     </button>
-    <div ng-if="isOpenAddLayer">
+    <div ng-if="isOpenAddLayer"><form>
         <!-- trip -->
         <label for="name">Name : </label><input type="text" ng-model="trip.name" id="name"/> <br />
         <label for="desc">Description : </label><input type="text" ng-model="trip.desc" id="desc"/> <br />
@@ -38,14 +38,19 @@ main page || <span th:text="${session.auth.name}">hgd</span> login...
         <hr />
             <button ng-click="addScene()">Add Scene</button><br />
             <div ng-repeat="scene in trip.scenes">
-                <input type="text" ng-model="scene.desc" />
-                <input type="file" nv-file-select="" uploader="uploader" />
+                <span>Scene Desc</span><input type="text" ng-model="scene.desc" /> <br />
+                <span>Image</span><input type="file" nv-file-select="" options="scene" uploader="uploader" />:<span ng-bind="scene.pictureUrl"></span> <br />
+                <span>Location Tag</span><input type="text" ng-model="scene.locationTag" /> <br />
+
+                Date sceneTime;
+                double latitude;
+                double longitude;
             </div>
         <hr />
         <!-- scenes -->
 
         <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
-    </div>
+    </form></div>
     <!-- save Layer -->
 
     <!-- List -->

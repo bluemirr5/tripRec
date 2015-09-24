@@ -21,7 +21,7 @@ public class TripTests {
     private MemberService memberService;
 
     @Test
-    public void tripCRUDTest() {
+    public void tripCRUDTest() throws Exception {
 //        Member member = memberService.findOne("bluemirr5");
 //
 //        Trip trip = new Trip();
@@ -44,5 +44,7 @@ public class TripTests {
 //        trip.setScenes(scenes);
 //        tripService.save(trip);
 //
+//        System.out.println(tripService.getClass());
+//        tripService.transactionTest();
     }
 }

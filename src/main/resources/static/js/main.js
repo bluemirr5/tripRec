@@ -12,6 +12,7 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
         var uploader = $scope.uploader = new FileUploader({
             url: '/sceneimage'
         });
+        $scope.temp = {};
 
         uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
             console.info('onWhenAddingFileFailed', item, filter, options);
@@ -43,6 +44,17 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
         };
         uploader.onCompleteItem = function(fileItem, response, status, headers) {
             console.info('onCompleteItem', fileItem, response, status, headers);
+
+            for(var i = 0; i < $scope.trip.scenes.length; i++ ) {
+                var uploadedScene = $scope.trip.scenes[i];
+                if(uploadedScene.orderNum == fileItem.orderNum) {
+                    uploadedScene.pictureUrl = response.filePath;
+                    break;
+                }
+            }
+
+            console.log($scope.trip);
+
         };
         uploader.onCompleteAll = function() {
             console.info('onCompleteAll');
@@ -91,8 +103,12 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             )
         };
 
+        var sceneTempId = 0;
         $scope.addScene = function () {
-            $scope.trip.scenes.push(new Scene());
+            var scene = new Scene();
+            scene.orderNum = sceneTempId;
+            $scope.trip.scenes.push(scene);
+            sceneTempId++;
         };
 
         $scope.detail = function(trip) {
