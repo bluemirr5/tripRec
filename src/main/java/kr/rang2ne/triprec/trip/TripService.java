@@ -1,8 +1,11 @@
 package kr.rang2ne.triprec.trip;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
 import kr.rang2ne.triprec.account.MemberRepository;
 import kr.rang2ne.triprec.account.model.Member;
-import kr.rang2ne.triprec.common.FileInfoModel;
+import kr.rang2ne.triprec.trip.model.MetaTag;
 import kr.rang2ne.triprec.trip.model.Scene;
 import kr.rang2ne.triprec.trip.model.Trip;
 import kr.rang2ne.triprec.view.model.SceneDto;
@@ -93,8 +96,8 @@ public class TripService  {
         return selectList;
     }
 
-    public FileInfoModel uploadTempFile(MultipartFile uploadFile) throws Exception {
-        FileInfoModel fileInfo = null;
+    public SceneDto.SaveFile uploadTempFile(MultipartFile uploadFile) throws Exception {
+        SceneDto.SaveFile saveFile = new SceneDto.SaveFile();
 
         if(uploadFile != null && !uploadFile.isEmpty()){
 
@@ -103,19 +106,40 @@ public class TripService  {
             String absolutePath = "D:/develop/sources/myWork/TripRec/src/main/resources";
             String resourcePath = "/static/images/" + curDate + "/";
 
+            // Make Directory
             File directory = new File(absolutePath + resourcePath);
             if(!(directory.exists() && directory.isDirectory())) {
                 directory.mkdir();
             }
+
+            // Make File
             String newFileName = System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
             String uploadFilePath = absolutePath + resourcePath + newFileName;
-            uploadFile.transferTo(new File(uploadFilePath));
-            fileInfo = new FileInfoModel(
-                    uploadFile.getOriginalFilename(),
-                    resourcePath + newFileName ,
-                    uploadFile.getSize());
+            File targetFile = new File(uploadFilePath);
+            uploadFile.transferTo(targetFile);
+
+            // Read Meta Info
+            List<MetaTag> metaTags = readMetaData(targetFile);
+
+            // Return Model
+            saveFile.setPicturePath(resourcePath + newFileName);
+            saveFile.setMetaTags(metaTags);
+
         }
 
-        return fileInfo;
+        return saveFile;
+    }
+
+    private List<MetaTag> readMetaData(File imageFile) throws Exception {
+        List<MetaTag> metaTags = new ArrayList<>();
+        Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
+        for (Directory directory : metadata.getDirectories()) {
+            directory.getTags().forEach(tag -> {
+                MetaTag metaTag = modelMapper.map(tag, MetaTag.class);
+                metaTag.setDirectoryName(directory.getName());
+                metaTags.add(metaTag);
+            });
+        }
+        return metaTags;
     }
 }

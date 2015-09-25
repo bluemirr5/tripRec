@@ -48,7 +48,8 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             for(var i = 0; i < $scope.trip.scenes.length; i++ ) {
                 var uploadedScene = $scope.trip.scenes[i];
                 if(uploadedScene.orderNum == fileItem.orderNum) {
-                    uploadedScene.pictureUrl = response.filePath;
+                    uploadedScene.pictureUrl = response.pictureUrl;
+                    uploadedScene.metaTags = response.metaTags;
                     break;
                 }
             }

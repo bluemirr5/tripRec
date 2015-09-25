@@ -3,11 +3,10 @@ package kr.rang2ne.triprec.trip.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rang on 2015-09-11.
@@ -15,8 +14,7 @@ import java.util.Date;
 @Entity
 @Data
 public class Scene {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
     private int orderNum;
     private String desc;
@@ -24,8 +22,11 @@ public class Scene {
     private double latitude;
     private double longitude;
     private String locationTag;
-    private String pictureUrl;
-    private String thumbUrl;
+
+    private String picturePath;
+    @OneToMany
+    @JoinColumn(name = "SCENE_ID")
+    private List<MetaTag> metaTags = new ArrayList<>();
 
     @ManyToOne
     private Trip trip;
