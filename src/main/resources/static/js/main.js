@@ -110,12 +110,16 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             )
         };
 
-        var sceneTempId = 0;
-        $scope.addScene = function () {
+        var sceneTempOrderNum = 0;
+        $scope.addScene = function() {
             var scene = new Scene();
-            scene.orderNum = sceneTempId;
+            scene.orderNum = sceneTempOrderNum;
             $scope.trip.scenes.push(scene);
-            sceneTempId++;
+            sceneTempOrderNum++;
+        };
+        $scope.removeScene = function(scene) {
+            var index = $scope.trip.scenes.indexOf(scene);
+            $scope.trip.scenes.splice(index, 1);
         };
 
         $scope.detail = function(trip) {
