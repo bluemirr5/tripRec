@@ -24,7 +24,7 @@ public class Scene {
     private String locationTag;
 
     private String picturePath;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "SCENE_ID")
     private List<MetaTag> metaTags = new ArrayList<>();
 

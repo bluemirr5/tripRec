@@ -18,17 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by rang on 2015-09-11.
  *
  */
 @Service
-@Transactional
 public class TripService  {
     @Autowired
     private MemberRepository memberRepository;
@@ -42,6 +39,7 @@ public class TripService  {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Transactional
     public void insert(TripDto.Create dto, Member member) throws Exception {
         Trip trip = modelMapper.map(dto, Trip.class);
         trip.setMember(member);
@@ -51,11 +49,16 @@ public class TripService  {
         List<Scene> scenes = trip.getScenes();
         scenes.forEach(scene -> {
             scene.setTrip(trip);
+            List<MetaTag> metaTags = scene.getMetaTags().parallelStream()
+                    .filter(metaTag -> metaTag.getDescription().getBytes().length < 255)
+                    .collect(Collectors.toList());
+            scene.setMetaTags(metaTags);
             sceneRepository.save(scene);
         });
         tripRepository.save(trip);
     }
 
+    @Transactional
     public void update(TripDto.Update dto, Member member) throws Exception {
         Trip trip = modelMapper.map(dto, Trip.class);
         Trip findedTrip = tripRepository.findOne(dto.getId());
@@ -74,6 +77,7 @@ public class TripService  {
         tripRepository.save(trip);
     }
 
+    @Transactional
     public void delete(Long id) throws Exception {
         Trip trip = new Trip();
         trip.setId(id);
@@ -81,6 +85,7 @@ public class TripService  {
         tripRepository.delete(id);
     }
 
+    @Transactional
     public List<TripDto.SelectList> getTrips(String memberId) throws Exception {
         List<Trip> trips = tripRepository.findByMemberWith(memberId);
 

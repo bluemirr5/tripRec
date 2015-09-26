@@ -38,6 +38,17 @@ var Scene = (function () {
         this.latitude=0;
         this.longitude=0;
         this.sceneTime=null;
+        this.metaTags=[];
+    };
+})();
+
+var MetaTag = (function () {
+    return function () {
+        this.id=0;
+        this.directoryName='';
+        this.tagType=0;
+        this.tagName='';
+        this.description='';
     };
 })();
 

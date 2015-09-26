@@ -7,50 +7,148 @@
     <title>MyCMS</title>
 
     <!-- Bootstrap -->
-    <!--<link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />-->
-    <link th:src="@{/components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/components/bootstrap-material-design/dist/css/material-fullpalette.min.css}" rel="stylesheet" />
+    <link th:href="@{/components/bootstrap-material-design/dist/css/roboto.min.css}" rel="stylesheet" />
+    <link th:href="@{/components/bootstrap-material-design/dist/css/ripples.min.css}" rel="stylesheet" />
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script th:src="@{/components/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/components/angular/angular.min.js}"></script>
+    <script th:src="@{/components/angular-file-upload/dist/angular-file-upload.min.js}"></script>
+    <script th:src="@{/components/bootstrap-material-design/dist/js/material.min.js}"></script>
+    <script th:src="@{/components/bootstrap-material-design/dist/js/ripples.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+
     <script th:inline="javascript">
+        $.material.init();
         var pageData_trips = [[${trips}]];
-        console.log(pageData_trips);
     </script>
+
+
 </head>
 <body>
-main page || <span th:text="${session.auth.name}">hgd</span> login...
-<div ng-controller="mainCtrl">
+<!--main page || <span th:text="${session.auth.name}">hgd</span> login...-->
+<!-- NAVI -->
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">Brand</a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="javascript:void(0)">Active</a></li>
+            <li><a href="javascript:void(0)">Link</a></li>
+            <li class="dropdown">
+                <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)">Action</a></li>
+                    <li><a href="javascript:void(0)">Another action</a></li>
+                    <li><a href="javascript:void(0)">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Dropdown header</li>
+                    <li><a href="javascript:void(0)">Separated link</a></li>
+                    <li><a href="javascript:void(0)">One more separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-left">
+            <input type="text" class="form-control col-lg-8" placeholder="Search" />
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <!--<li><a href="javascript:void(0)">Link</a></li>-->
+            <li class="dropdown">
+                <a data-target="#" class="dropdown-toggle" data-toggle="dropdown"> <span th:text="${session.auth.name}"></span><b class='caret'></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)">내정보</a></li>
+                    <li><a href="javascript:void(0)">로그아웃</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- NAVI -->
+<div ng-controller="mainCtrl" style="padding: 10px;">
     <!-- save Layer -->
     <button ng-click="isOpenAddLayer = !isOpenAddLayer">
         <span ng-if="!isOpenAddLayer">Open</span>
         <span ng-if="isOpenAddLayer">Close</span>
     </button>
-    <div ng-if="isOpenAddLayer"><form>
+    <div ng-if="isOpenAddLayer">
         <!-- trip -->
-        <label for="name">Name : </label><input type="text" ng-model="trip.name" id="name"/> <br />
-        <label for="desc">Description : </label><input type="text" ng-model="trip.desc" id="desc"/> <br />
-        <label for="published">Description : </label><input type="checkbox" ng-model="trip.published" id="published"/><br />
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="form-group">
+                    <label for="Name" class="col-lg-2 control-label">이름</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="Name" placeholder="이름" ng-model="trip.name" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="desc" class="col-lg-2 control-label">설명</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="desc" ng-model="trip.desc" placeholder="설명" /> <br />
+                        <div class="togglebutton">
+                            <label>
+                                <input type="checkbox" checked="" ng-model="trip.published" /> 공개여부 <span class="toggle"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"> 장면 </label>
+                    <div class="col-lg-10">
+                        <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a>
+                        <div class="panel panel-primary " ng-repeat="scene in trip.scenes">
+                            <div class="panel-heading form-group">
+                                <input class="form-control floating-label input-lg" style="color: #ffffff;" id="focusedInput" type="text" ng-model="scene.desc" placeholder="제목" />
+                            </div>
+                            <div class="panel-body">
+                                <input type="file" nv-file-select="" options="scene" uploader="uploader" />
+                                <span ng-bind="scene.uploadPercent"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
         <!-- trip -->
 
         <!-- scenes -->
         <hr />
-            <button ng-click="addScene()">Add Scene</button><br />
-            <div ng-repeat="scene in trip.scenes">
-                <span>Scene Desc</span><input type="text" ng-model="scene.desc" /> <br />
-                <span>Image</span><input type="file" nv-file-select="" options="scene" uploader="uploader" />:<span ng-bind="scene.pictureUrl"></span> <br />
-                <span>Location Tag</span><input type="text" ng-model="scene.locationTag" /> <br />
 
-                Date sceneTime;
+            <!--<div ng-repeat="scene in trip.scenes">-->
+                <!--<span>Scene Desc</span><input type="text" ng-model="scene.desc" /> <br />-->
+                <!--<span>Image</span><input type="file" nv-file-select="" options="scene" uploader="uploader" />:<span ng-bind="scene.uploadPercent"></span> <br />-->
+                <!--<span>Location Tag</span><input type="text" ng-model="scene.locationTag" /> <br />-->
+
+                <!--Date sceneTime;
                 double latitude;
-                double longitude;
-            </div>
+                double longitude;-->
+            <!--</div>-->
         <hr />
         <!-- scenes -->
 
         <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
-    </form></div>
+    </div>
     <!-- save Layer -->
 
     <!-- List -->
@@ -62,12 +160,5 @@ main page || <span th:text="${session.auth.name}">hgd</span> login...
     </div>
 
 </div>
-
-<script th:src="@{/components/jquery/dist/jquery.min.js}"></script>
-<script th:src="@{/components/bootstrap/dist/js/bootstrap.min.js}"></script>
-<script th:src="@{/components/angular/angular.min.js}"></script>
-<script th:src="@{/components/angular-file-upload/dist/angular-file-upload.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
-<script th:src="@{/js/common.js}"></script>
 </body>
 </html>
