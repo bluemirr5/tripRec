@@ -117,6 +117,7 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             scene.orderNum = sceneTempOrderNum;
             $scope.trip.scenes.push(scene);
             sceneTempOrderNum++;
+            // page 작업
             if($scope.trip.scenes.length % 2 == 1) {
                 var scenePage = [];
                 scenePage.push(scene);
@@ -128,7 +129,18 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
         $scope.removeScene = function(scene) {
             var index = $scope.trip.scenes.indexOf(scene);
             $scope.trip.scenes.splice(index, 1);
-            //TODO
+
+            $scope.scenePages = [];
+            for(var i = 0; i < $scope.trip.scenes.length; i++) {
+                var targetScene = $scope.trip.scenes[i]
+                if(i % 2 == 0) {
+                    var scenePage = [];
+                    scenePage.push(targetScene);
+                    $scope.scenePages.push(scenePage);
+                } else {
+                    $scope.scenePages[$scope.scenePages.length-1].push(targetScene);
+                }
+            }
         };
 
         $scope.detail = function(trip) {

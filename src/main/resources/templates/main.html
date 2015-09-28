@@ -80,72 +80,62 @@
 <!-- NAVI -->
 
 <div ng-controller="mainCtrl" style="padding: 10px;">
-    <!-- save Layer -->
-    <button ng-click="isOpenAddLayer = !isOpenAddLayer">
-        <span ng-if="!isOpenAddLayer">Open</span>
-        <span ng-if="isOpenAddLayer">Close</span>
-    </button>
-    <div ng-if="isOpenAddLayer">
-        <!-- trip -->
-        <form class="form-horizontal">
-            <fieldset>
-                <div class="form-group">
-                    <label for="Name" class="col-xs-1 control-label">이름</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="Name" placeholder="이름" ng-model="trip.name" />
+    <!-- trip -->
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                <label for="Name" class="col-xs-1 control-label">이름</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="Name" placeholder="이름" ng-model="trip.name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desc" class="col-xs-1 control-label">설명</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="desc" ng-model="trip.desc" placeholder="설명" /> <br />
+                    <div class="togglebutton">
+                        <label>
+                            <input type="checkbox" checked="" ng-model="trip.published" /> 공개여부 <span class="toggle"></span>
+                        </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="desc" class="col-xs-1 control-label">설명</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="desc" ng-model="trip.desc" placeholder="설명" /> <br />
-                        <div class="togglebutton">
-                            <label>
-                                <input type="checkbox" checked="" ng-model="trip.published" /> 공개여부 <span class="toggle"></span>
-                            </label>
+            </div>
+
+            <!-- scenes -->
+            <div class="form-group">
+                <label class="col-xs-1 control-label"></label>
+                <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a><br />
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-xs-offset-1 row" ng-repeat="scenePage in scenePages">
+                    <div class="col-lg-6 bs-component" ng-repeat="scene in scenePage track by $index">
+                        <div class="well">
+                            <div class="row" style="margin-bottom: 10px">
+                                <div class="col-md-11">
+                                    <input class="form-control floating-label" id="focusedInput" type="text" ng-model="scene.desc" placeholder="제목" />
+                                </div>
+                                <div class="col-md-1" style="padding-right: 15px">
+                                    <i ng-click="removeScene(scene)" class="icon-preview mdi-content-clear"></i>
+                                </div>
+                            </div>
+                            <input type="file" nv-file-select="" options="scene" uploader="uploader" />
+                            <span ng-bind="scene.uploadPercent"></span>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- scenes -->
 
-                <!-- scenes -->
-                <div class="form-group">
-                    <label class="col-xs-1 control-label"></label>
-
-                    <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a><br />
-
-                    <!--<div class="panel panel-primary " ng-repeat="scene in trip.scenes">-->
-                        <!--<div class="panel-heading form-group">-->
-                            <!--<input class="form-control floating-label input-lg" style="color: #ffffff;" id="focusedInput" type="text" ng-model="scene.desc" placeholder="제목" />-->
-                            <!--<i ng-click="removeScene(scene)" class="icon-preview mdi-content-clear"></i>-->
-                        <!--</div>-->
-                        <!--<div class="panel-body">-->
-                            <!--<input type="file" nv-file-select="" options="scene" uploader="uploader" />-->
-                            <!--<span ng-bind="scene.uploadPercent"></span>-->
-                        <!--</div>-->
-                    <!--</div>-->
+            <div class="form-group">
+                <div class="col-lg-10 col-xs-offset-1">
+                    <button class="btn btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-xs-offset-1 row" ng-repeat="scenePage in scenePages">
-                        <div class="col-lg-5 bs-component" ng-repeat="scene in scenePage">
-                            <div class="well">VX</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- scenes -->
-
-                <div class="form-group">
-                    <div class="col-lg-10 col-xs-offset-1">
-                        <button class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-        <!-- trip -->
-
-        <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
-    </div>
-    <!-- save Layer -->
+            </div>
+        </fieldset>
+    </form>
+    <!-- trip -->
+    <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
 
     <!-- List -->
     <h3>MyTrip List</h3>
