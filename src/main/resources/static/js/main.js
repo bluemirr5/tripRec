@@ -111,15 +111,24 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
         };
 
         var sceneTempOrderNum = 0;
+        $scope.scenePages = [];
         $scope.addScene = function() {
             var scene = new Scene();
             scene.orderNum = sceneTempOrderNum;
             $scope.trip.scenes.push(scene);
             sceneTempOrderNum++;
+            if($scope.trip.scenes.length % 2 == 1) {
+                var scenePage = [];
+                scenePage.push(scene);
+                $scope.scenePages.push(scenePage);
+            } else {
+                $scope.scenePages[$scope.scenePages.length-1].push(scene);
+            }
         };
         $scope.removeScene = function(scene) {
             var index = $scope.trip.scenes.indexOf(scene);
             $scope.trip.scenes.splice(index, 1);
+            //TODO
         };
 
         $scope.detail = function(trip) {

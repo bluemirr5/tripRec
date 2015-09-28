@@ -109,19 +109,25 @@
 
                 <!-- scenes -->
                 <div class="form-group">
-                    <label class="col-xs-1 control-label"> 장면 </label>
-                    <div class="col-lg-10">
-                        <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a>
-                        <div class="panel panel-primary " ng-repeat="scene in trip.scenes">
-                            <div class="panel-heading form-group">
-                                <input class="form-control floating-label input-lg" style="color: #ffffff;" id="focusedInput" type="text" ng-model="scene.desc" placeholder="제목" />
-                                <i ng-click="removeScene(scene)" class="icon-preview mdi-content-clear"></i>
-                            </div>
-                            <div class="panel-body">
-                                <input type="file" nv-file-select="" options="scene" uploader="uploader" />
-                                <span ng-bind="scene.uploadPercent"></span>
-                            </div>
+                    <label class="col-xs-1 control-label"></label>
 
+                    <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a><br />
+
+                    <!--<div class="panel panel-primary " ng-repeat="scene in trip.scenes">-->
+                        <!--<div class="panel-heading form-group">-->
+                            <!--<input class="form-control floating-label input-lg" style="color: #ffffff;" id="focusedInput" type="text" ng-model="scene.desc" placeholder="제목" />-->
+                            <!--<i ng-click="removeScene(scene)" class="icon-preview mdi-content-clear"></i>-->
+                        <!--</div>-->
+                        <!--<div class="panel-body">-->
+                            <!--<input type="file" nv-file-select="" options="scene" uploader="uploader" />-->
+                            <!--<span ng-bind="scene.uploadPercent"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-xs-offset-1 row" ng-repeat="scenePage in scenePages">
+                        <div class="col-lg-5 bs-component" ng-repeat="scene in scenePage">
+                            <div class="well">VX</div>
                         </div>
                     </div>
                 </div>
