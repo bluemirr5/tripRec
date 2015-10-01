@@ -23,8 +23,8 @@ public class MemberTests {
 
     @Test
     public void memberCRUDTest() throws Exception {
-        String testId = "bluemirr5"+System.currentTimeMillis();
-        String testPass = "1234"+System.currentTimeMillis();
+        String testId = "bluemirr5";//+System.currentTimeMillis();
+        String testPass = "1234";//+System.currentTimeMillis();
 
         Member member = new Member();
         member.setId(testId);

@@ -5,6 +5,8 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import kr.rang2ne.triprec.account.MemberRepository;
 import kr.rang2ne.triprec.account.model.Member;
+import kr.rang2ne.triprec.trip.metaTagFilter.MetaTagFilter;
+import kr.rang2ne.triprec.trip.metaTagFilter.MetaTagFilterSelecter;
 import kr.rang2ne.triprec.trip.model.MetaTag;
 import kr.rang2ne.triprec.trip.model.Scene;
 import kr.rang2ne.triprec.trip.model.Trip;
@@ -102,49 +104,73 @@ public class TripService  {
     }
 
     public SceneDto.SaveFile uploadTempFile(MultipartFile uploadFile) throws Exception {
+        String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        //TODO static value change properties
+        String resourcePath = "/images/" + curDate + "/";
+
         SceneDto.SaveFile saveFile = new SceneDto.SaveFile();
 
         if(uploadFile != null && !uploadFile.isEmpty()){
-
-            String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-            //TODO static value change properties
-            String absolutePath = "D:/develop/sources/myWork/TripRec/src/main/resources";
-            String resourcePath = "/static/images/" + curDate + "/";
-
-            // Make Directory
-            File directory = new File(absolutePath + resourcePath);
-            if(!(directory.exists() && directory.isDirectory())) {
-                directory.mkdir();
-            }
-
-            // Make File
-            String newFileName = System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
-            String uploadFilePath = absolutePath + resourcePath + newFileName;
-            File targetFile = new File(uploadFilePath);
-            uploadFile.transferTo(targetFile);
+            File targetFile = makeUploadFile(uploadFile);
 
             // Read Meta Info
-            List<MetaTag> metaTags = readMetaData(targetFile);
+            Map<String, MetaTag> metaTagMap = readMetaData(targetFile);
+            String extension = getFileExtension(targetFile);
+            MetaTagFilter metaTagFilter = MetaTagFilterSelecter.getMetaTagFilter(extension, metaTagMap);
+            saveFile = modelMapper.map(metaTagFilter, SceneDto.SaveFile.class);
+            saveFile.setPictureHeight(metaTagFilter.getPictureHeight());
+            saveFile.setPictureWidth(metaTagFilter.getPictureWidth());
 
             // Return Model
-            saveFile.setPicturePath(resourcePath + newFileName);
-            saveFile.setMetaTags(metaTags);
-
+            saveFile.setPicturePath(resourcePath + targetFile.getName());
+            List<MetaTag> tagList = metaTagMap.entrySet().stream()
+                    .map(stringMetaTagEntry -> metaTagMap.get(stringMetaTagEntry.getKey()))
+                    .collect(Collectors.toList());
+            saveFile.setMetaTags(tagList);
         }
 
         return saveFile;
     }
 
-    private List<MetaTag> readMetaData(File imageFile) throws Exception {
-        List<MetaTag> metaTags = new ArrayList<>();
+    private File makeUploadFile(MultipartFile uploadFile) throws Exception {
+        String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        //TODO static value change properties
+        String absolutePath = "D:/develop/sources/myWork/TripRec/src/main/resources/static";
+        String resourcePath = "/images/" + curDate + "/";
+        String newFileName = System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
+
+        // Make Directory
+        File directory = new File(absolutePath + resourcePath);
+        if(!(directory.exists() && directory.isDirectory())) {
+            directory.mkdir();
+        }
+
+        // Make File
+        String uploadFilePath = absolutePath + resourcePath + newFileName;
+        File targetFile = new File(uploadFilePath);
+        uploadFile.transferTo(targetFile);
+        return targetFile;
+    }
+
+    private Map<String, MetaTag> readMetaData(File imageFile) throws Exception {
+        Map<String, MetaTag> metaTagMap = new HashMap<>();
         Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
         for (Directory directory : metadata.getDirectories()) {
             directory.getTags().forEach(tag -> {
-                MetaTag metaTag = modelMapper.map(tag, MetaTag.class);
-                metaTag.setDirectoryName(directory.getName());
-                metaTags.add(metaTag);
+                if(tag.getDescription().getBytes().length < 255) {
+                    MetaTag metaTag = modelMapper.map(tag, MetaTag.class);
+                    metaTag.setDirectoryName(directory.getName());
+                    metaTagMap.put(metaTag.getDirectoryName()+"-"+metaTag.getTagType(), metaTag);
+                }
             });
         }
-        return metaTags;
+        return metaTagMap;
+    }
+
+    private String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".")+1);
+        else return "";
     }
 }

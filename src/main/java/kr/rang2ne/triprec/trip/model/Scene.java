@@ -18,11 +18,13 @@ public class Scene {
     private Long id;
     private int orderNum;
     private String desc;
-    private Date sceneTime;
-    private double latitude;
-    private double longitude;
     private String locationTag;
 
+    private Date pictureTime;
+    private double pictureLatitude;
+    private double pictureLongitude;
+    private int pictureWidth;
+    private int pictureHeight;
     private String picturePath;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "SCENE_ID")

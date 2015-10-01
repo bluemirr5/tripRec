@@ -4,27 +4,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>MyCMS</title>
+    <title>Record Trip</title>
 
     <!-- Bootstrap -->
-    <link th:href="@{/components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" />
-    <link th:href="@{/components/bootstrap-material-design/dist/css/material-fullpalette.min.css}" rel="stylesheet" />
-    <link th:href="@{/components/bootstrap-material-design/dist/css/roboto.min.css}" rel="stylesheet" />
-    <link th:href="@{/components/bootstrap-material-design/dist/css/ripples.min.css}" rel="stylesheet" />
+    <link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/components/bootstrap-material-design/dist/css/material-fullpalette.min.css" rel="stylesheet" />
+    <link href="/components/bootstrap-material-design/dist/css/roboto.min.css" rel="stylesheet" />
+    <link href="/components/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet" />
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script th:src="@{/components/jquery/dist/jquery.min.js}"></script>
-    <script th:src="@{/components/bootstrap/dist/js/bootstrap.min.js}"></script>
-    <script th:src="@{/components/angular/angular.min.js}"></script>
-    <script th:src="@{/components/angular-file-upload/dist/angular-file-upload.min.js}"></script>
-    <script th:src="@{/components/bootstrap-material-design/dist/js/material.min.js}"></script>
-    <script th:src="@{/components/bootstrap-material-design/dist/js/ripples.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/common.js}"></script>
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script src="/components/bootstrap-material-design/dist/js/material.min.js"></script>
+    <script src="/components/bootstrap-material-design/dist/js/ripples.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/common.js"></script>
 
     <script th:inline="javascript">
         $.material.init();
@@ -118,8 +118,25 @@
                                     <i ng-click="removeScene(scene)" class="icon-preview mdi-content-clear"></i>
                                 </div>
                             </div>
-                            <input type="file" nv-file-select="" options="scene" uploader="uploader" />
-                            <span ng-bind="scene.uploadPercent"></span>
+                            <!-- 업로드전 -->
+                            <div ng-if="!scene.picturePath">
+                                <input type="file" nv-file-select="" options="scene" uploader="uploader" />
+                                <br />
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" ng-style="scene.uploadProgress"></div>
+                                </div>
+
+                                <span ng-bind="scene.uploadPercent"></span>
+                            </div>
+                            <!-- 업로드후 -->
+                            <div ng-if="scene.picturePath">
+                                <img ng-src="{{scene.picturePath}}" />
+                                <p>
+                                    <ul>
+                                        <li ng-repeat="metaTag in scene.metaTags">{{'['+metaTag.directoryName+']'+metaTag.tagName+":"+metaTag.description}}</li>
+                                    </ul>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +159,6 @@
     <hr />
     <div ng-repeat="trip in trips">
         <span ng-bind="trip.name"></span><button ng-click="detail(trip)">detail</button>
-
     </div>
 
 </div>

@@ -33,6 +33,7 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
                 var uploadedScene = $scope.trip.scenes[i];
                 if(uploadedScene.orderNum == fileItem.orderNum) {
                     uploadedScene.uploadPercent = progress;
+                    uploadedScene.uploadProgress = {'width': progress+'%'};
                     break;
                 }
             }
@@ -50,16 +51,20 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             //console.info('onCancelItem', fileItem, response, status, headers);
         };
         uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            //console.info('onCompleteItem', fileItem, response, status, headers);
+            console.info('onCompleteItem', fileItem, response, status, headers);
             for(var i = 0; i < $scope.trip.scenes.length; i++ ) {
                 var uploadedScene = $scope.trip.scenes[i];
                 if(uploadedScene.orderNum == fileItem.orderNum) {
                     uploadedScene.picturePath = response.picturePath;
                     uploadedScene.metaTags = response.metaTags;
+                    uploadedScene.pictureLatitude = response.pictureLatitude;
+                    uploadedScene.pictureLongitude = response.pictureLongitude;
+                    uploadedScene.pictureWidth = response.pictureWidth;
+                    uploadedScene.pictureHeight = response.pictureHeight;
+                    uploadedScene.pictureTime = response.pictureTime;
                     break;
                 }
             }
-            //console.log($scope.trip);
         };
         uploader.onCompleteAll = function() {
             //console.info('onCompleteAll');

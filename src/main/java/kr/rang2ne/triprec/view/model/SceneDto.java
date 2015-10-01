@@ -16,16 +16,20 @@ public class SceneDto {
         private Long id;
         private int orderNum;
         private String desc;
-        private Date sceneTime;
-        private double latitude;
-        private double longitude;
+        private Date pictureTime;
+        private double pictureLatitude;
+        private double pictureLongitude;
         private String locationTag;
         private String pictureUrl;
-        private String thumbUrl;
     }
 
     @Data
     public static class SaveFile {
+        private Date pictureTime;
+        private double pictureLatitude;
+        private double pictureLongitude;
+        private int pictureWidth;
+        private int pictureHeight;
         private String picturePath;
         private List<MetaTag> metaTags = new ArrayList<>();
     }
