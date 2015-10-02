@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface MetaTagFilter {
     void setMetaTags(Map<String, MetaTag> tagMap);
+    Map<String, MetaTag> getMetaTags();
     String getExtension();
     Date getPictureTime();
     Double getPictureLatitude();

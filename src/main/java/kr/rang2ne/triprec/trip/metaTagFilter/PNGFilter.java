@@ -38,16 +38,21 @@ public class PNGFilter implements MetaTagFilter {
 
     @Override
     public int getPictureWidth() {
-        return getValue("PNG-IHDR-"+1);
+        return getSizeValue("PNG-IHDR-"+1);
     }
 
     @Override
     public int getPictureHeight() {
-        return getValue("PNG-IHDR-"+2);
+        return getSizeValue("PNG-IHDR-"+2);
     }
 
-    private int getValue(String key) {
-        MetaTag metaTag = tagMaps.get(key);
+    @Override
+    public Map<String, MetaTag> getMetaTags() {
+        return this.tagMaps;
+    }
+
+    private int getSizeValue(String key) {
+        MetaTag metaTag = getMetaTags().get(key);
         if(metaTag != null) {
             try {
                 int width = Integer.parseInt(metaTag.getDescription());

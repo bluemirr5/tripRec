@@ -22,6 +22,11 @@ public class JPEGFliter implements MetaTagFilter {
     }
 
     @Override
+    public Map<String, MetaTag> getMetaTags() {
+        return this.tagMaps;
+    }
+
+    @Override
     public Date getPictureTime() {
         return null;
     }
@@ -38,23 +43,20 @@ public class JPEGFliter implements MetaTagFilter {
 
     @Override
     public int getPictureWidth() {
-        MetaTag metaTag = tagMaps.get("JPEG-"+3);
-        if(metaTag != null) {
-            String widthWithPixels = metaTag.getDescription();
-            if(widthWithPixels != null && !"".equals(widthWithPixels)) {
-                return parseInt(widthWithPixels);
-            }
-        }
-        return 0;
+        return getSizeValue("JPEG-"+3);
     }
 
     @Override
     public int getPictureHeight() {
-        MetaTag metaTag = tagMaps.get("JPEG-"+1);
+        return getSizeValue("JPEG-"+1);
+    }
+
+    private int getSizeValue(String key) {
+        MetaTag metaTag = getMetaTags().get(key);
         if(metaTag != null) {
-            String heightWithPixels = metaTag.getDescription();
-            if(heightWithPixels != null && !"".equals(heightWithPixels)) {
-                return parseInt(heightWithPixels);
+            String sizeWithPixels = metaTag.getDescription();
+            if(sizeWithPixels != null && !"".equals(sizeWithPixels)) {
+                return parseInt(sizeWithPixels);
             }
         }
         return 0;

@@ -38,16 +38,21 @@ public class GIFFilter implements MetaTagFilter {
 
     @Override
     public int getPictureWidth() {
-        return getValue("GIF Header-2");
+        return getSizeValue("GIF Header-2");
+    }
+
+    @Override
+    public Map<String, MetaTag> getMetaTags() {
+        return this.tagMaps;
     }
 
     @Override
     public int getPictureHeight() {
-        return getValue("GIF Header-3");
+        return getSizeValue("GIF Header-3");
     }
 
-    private int getValue(String key) {
-        MetaTag metaTag = tagMaps.get(key);
+    private int getSizeValue(String key) {
+        MetaTag metaTag = getMetaTags().get(key);
         if(metaTag != null) {
             try {
                 int width = Integer.parseInt(metaTag.getDescription());
