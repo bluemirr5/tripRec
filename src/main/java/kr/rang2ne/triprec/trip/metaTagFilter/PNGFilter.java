@@ -50,15 +50,4 @@ public class PNGFilter implements MetaTagFilter {
     public Map<String, MetaTag> getMetaTags() {
         return this.tagMaps;
     }
-
-    private int getSizeValue(String key) {
-        MetaTag metaTag = getMetaTags().get(key);
-        if(metaTag != null) {
-            try {
-                int width = Integer.parseInt(metaTag.getDescription());
-                return width;
-            } catch (Exception e) {e.printStackTrace();}
-        }
-        return 0;
-    }
 }

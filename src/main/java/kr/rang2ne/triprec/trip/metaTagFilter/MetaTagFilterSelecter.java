@@ -13,7 +13,7 @@ public class MetaTagFilterSelecter {
     static
     {
         filterMap = new HashMap<String, Class>();
-        filterMap.put("JPG", JPEGFliter.class);
+        filterMap.put("JPG", JPEGFilter.class);
         filterMap.put("GIF", GIFFilter.class);
         filterMap.put("PNG", PNGFilter.class);
     }

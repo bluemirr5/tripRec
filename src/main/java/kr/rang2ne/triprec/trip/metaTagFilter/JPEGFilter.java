@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by rang on 2015-10-01.
  */
-public class JPEGFliter implements MetaTagFilter {
+public class JPEGFilter implements MetaTagFilter {
     private Map<String, MetaTag> tagMaps = null;
 
     @Override
@@ -51,7 +51,8 @@ public class JPEGFliter implements MetaTagFilter {
         return getSizeValue("JPEG-"+1);
     }
 
-    private int getSizeValue(String key) {
+    @Override
+    public int getSizeValue(String key) {
         MetaTag metaTag = getMetaTags().get(key);
         if(metaTag != null) {
             String sizeWithPixels = metaTag.getDescription();
