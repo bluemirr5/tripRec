@@ -15,7 +15,7 @@ public class TripDto {
     public static class SelectList {
         private Long id;
         private String name;
-        private String desc;
+        private String description;
         private boolean published;
         private List<SceneDto.SelectList> scenes;
     }
@@ -24,14 +24,14 @@ public class TripDto {
     public static class Update {
         @NotBlank private Long id;
         @NotBlank private String name;
-        private String desc;
+        private String description;
         @NotEmpty private boolean published;
     }
 
     @Data
     public static class Create {
         @NotBlank private String name;
-        private String desc;
+        private String description;
         @NotEmpty private boolean published;
         private List<Scene> scenes;
     }

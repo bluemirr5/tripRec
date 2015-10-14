@@ -17,7 +17,7 @@ public class Scene {
     @Id @GeneratedValue
     private Long id;
     private int orderNum;
-    private String desc;
+    private String description;
     private String locationTag;
 
     private Date pictureTime;

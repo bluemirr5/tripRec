@@ -15,7 +15,7 @@ public class SceneDto {
     public static class SelectList {
         private Long id;
         private int orderNum;
-        private String desc;
+        private String description;
         private Date pictureTime;
         private double pictureLatitude;
         private double pictureLongitude;

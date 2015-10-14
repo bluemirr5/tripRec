@@ -20,7 +20,7 @@ var Trip = (function () {
     return function () {
         this.id=0;
         this.name='';
-        this.desc='';
+        this.description='';
         this.regTime=null;
         this.modTime=null;
         this.published=false;
@@ -31,7 +31,7 @@ var Trip = (function () {
 var Scene = (function () {
     return function () {
         this.orderNum=0;
-        this.desc='';
+        this.description='';
         this.thumbUrl='';
         this.pictureUrl='';
         this.locationTag='';

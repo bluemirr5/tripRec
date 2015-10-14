@@ -19,7 +19,7 @@ public class Trip {
     @GeneratedValue
     private Long id;
     private String name;
-    private String desc;
+    private String description;
     private Date regTime;
     private Date modTime;
     private boolean published;
