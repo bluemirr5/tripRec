@@ -16,7 +16,7 @@ import java.util.Calendar;
  * Created by rang on 2015-09-12.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = TripRecApplication.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class MemberTests {
     @Autowired
     MemberService memberService;
