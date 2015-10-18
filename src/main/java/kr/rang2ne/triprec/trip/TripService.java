@@ -14,6 +14,7 @@ import kr.rang2ne.triprec.view.model.SceneDto;
 import kr.rang2ne.triprec.view.model.TripDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TripService  {
+    @Value("${kr.rang2ne.triprec.stored.absolute.path}")
+    private String absolutePath;
+    @Value("${kr.rang2ne.triprec.stored.web.path}")
+    private String webPath;
+
     @Autowired
     private MemberRepository memberRepository;
 
@@ -105,8 +111,7 @@ public class TripService  {
 
     public SceneDto.SaveFile uploadTempFile(MultipartFile uploadFile) throws Exception {
         String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        //TODO static value change properties
-        String resourcePath = "/images/" + curDate + "/";
+        String resourcePath = webPath + "/" + curDate + "/";
 
         SceneDto.SaveFile saveFile = new SceneDto.SaveFile();
 
@@ -134,9 +139,7 @@ public class TripService  {
 
     private File makeUploadFile(MultipartFile uploadFile) throws Exception {
         String curDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        //TODO static value change properties
-        String absolutePath = "D:/develop/sources/myWork/TripRec/src/main/resources/static";
-        String resourcePath = "/images/" + curDate + "/";
+        String resourcePath = "/" + curDate + "/";
         String newFileName = System.nanoTime()+"_"+uploadFile.getOriginalFilename().replaceAll(" ", "_");
 
         // Make Directory
