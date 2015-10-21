@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * Created by rang on 2015-09-17.
@@ -25,7 +26,7 @@ public class TripViewController {
             method = RequestMethod.POST
     )
     @ResponseBody
-    public ResponseEntity postTrip(
+    public ResponseEntity postTrip (
             @RequestBody TripDto.Create trip,
             HttpSession session
     ) throws Exception {
@@ -39,9 +40,10 @@ public class TripViewController {
             method = RequestMethod.PUT
     )
     @ResponseBody
-    public ResponseEntity putTrip(
-            @RequestBody TripDto.Update dto,
-            HttpSession session
+    public ResponseEntity putTrip (
+            @RequestBody @Valid TripDto.Update dto
+//            ,BindingResult bindingResult
+            ,HttpSession session
     ) throws Exception {
         Member member = (Member) session.getAttribute("auth");
         tripService.update(dto, member);
@@ -53,7 +55,7 @@ public class TripViewController {
             method = RequestMethod.DELETE
     )
     @ResponseBody
-    public ResponseEntity deleteTrip(
+    public ResponseEntity deleteTrip (
             @PathVariable Long id,
             HttpSession session
     ) throws Exception {
@@ -66,7 +68,7 @@ public class TripViewController {
             method = RequestMethod.GET
     )
     @ResponseBody
-    public ResponseEntity getTrips(
+    public ResponseEntity getTrips (
             HttpSession session
     ) throws Exception {
         Member member = (Member) session.getAttribute("auth");
@@ -83,5 +85,10 @@ public class TripViewController {
             @RequestParam MultipartFile file
     ) throws Exception {
         return new ResponseEntity(tripService.uploadTempFile(file), HttpStatus.OK);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity exceptionHandling(Exception e) {
+        return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -107,7 +107,7 @@
                 <a href="javascript:void(0)" ng-click="addScene()" class="btn btn-success">장면 추가</a><br />
             </div>
             <div class="form-group">
-                <div class="col-lg-10 col-xs-offset-1 row" ng-repeat="scenePage in scenePages">
+                <div class="col-lg-10 col-xs-offset-1 row" ng-repeat="scenePage in trip.scenePages">
                     <div class="col-lg-6 bs-component" ng-repeat="scene in scenePage track by $index">
                         <div class="well">
                             <div class="row" style="margin-bottom: 10px">
@@ -130,12 +130,31 @@
                             </div>
                             <!-- 업로드후 -->
                             <div ng-if="scene.picturePath">
-                                <img ng-src="{{scene.picturePath}}" />
+                                <img ng-src="{{scene.picturePath}}" style="width: 100%" />
                                 <p>
                                     <ul>
-                                        <li ng-repeat="metaTag in scene.metaTags">{{'['+metaTag.directoryName+']'+metaTag.tagName+":"+metaTag.description}}</li>
+                                        <li>Latitude : {{scene.pictureLatitude}}</li>
+                                        <li>Longitude : {{scene.pictureLongitude}}</li>
+                                        <li>Width : {{scene.pictureWidth}}</li>
+                                        <li>Height : {{scene.pictureHeight}}</li>
+                                        <li>Time : {{scene.pictureTime}}</li>
                                     </ul>
                                 </p>
+
+                                <button type="button" class="btn btn-default" ng-click="scene.metaViewFlag = !scene.metaViewFlag">
+                                    View All Meta Tag
+                                </button>
+                                <div class="alert alert-dismissable alert-danger" ng-show="scene.metaViewFlag">
+                                    <button type="button" class="close" ng-click="scene.metaViewFlag = !scene.metaViewFlag">×</button>
+                                    <ul>
+                                        <li ng-repeat="metaTag in scene.metaTags">{{'['+metaTag.directoryName+']'+metaTag.tagType+':'+metaTag.tagName+":"+metaTag.description}}</li>
+                                    </ul>
+                                </div>
+                                <!--<p>-->
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="metaTag in scene.metaTags">{{'['+metaTag.directoryName+']'+metaTag.tagType+':'+metaTag.tagName+":"+metaTag.description}}</li>-->
+                                    <!--</ul>-->
+                                <!--</p>-->
                             </div>
                         </div>
                     </div>
@@ -145,21 +164,21 @@
 
             <div class="form-group">
                 <div class="col-lg-10 col-xs-offset-1">
-                    <button class="btn btn-default">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button ng-click="cleanTrip()" class="btn btn-default">Cancel</button>
+                    <button ng-click="saveTrip()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </fieldset>
     </form>
     <!-- trip -->
-    <button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>
+    <!--<button ng-click="saveTrip()">Save</button><button ng-if="trip.id" ng-click="removeTrip()">Remove</button>-->
 
     <!-- List -->
-    <h3>MyTrip List</h3>
-    <hr />
-    <div ng-repeat="trip in trips">
-        <span ng-bind="trip.name"></span><button ng-click="detail(trip)">detail</button>
-    </div>
+    <!--<h3>MyTrip List</h3>-->
+    <!--<hr />-->
+    <!--<div ng-repeat="trip in trips">-->
+        <!--<span ng-bind="trip.name"></span><button ng-click="detail(trip)">detail</button>-->
+    <!--</div>-->
 
 </div>
 </body>

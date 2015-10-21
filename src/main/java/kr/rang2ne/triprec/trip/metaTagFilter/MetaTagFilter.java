@@ -37,7 +37,7 @@ public interface MetaTagFilter {
             if(seperatedGpsStrArray.length == 3) {
                 String degreeStr = seperatedGpsStrArray[0].replace("°", "");
                 String minStr = seperatedGpsStrArray[1].replace("'", "");
-                String secStr = seperatedGpsStrArray[1].replace("\"", "");
+                String secStr = seperatedGpsStrArray[2].replace("\"", "");
                 try {
                     double degree = Double.parseDouble(degreeStr);
                     double min = Double.parseDouble(minStr);

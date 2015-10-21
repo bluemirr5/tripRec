@@ -102,6 +102,10 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             );
         };
 
+        $scope.cleanTrip = function() {
+            $scope.trip = new Trip();
+        };
+
         $scope.removeTrip = function() {
             $http.delete('/trip/'+$scope.trip.id).then(
                 function() {
@@ -116,7 +120,7 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
         };
 
         var sceneTempOrderNum = 0;
-        $scope.scenePages = [];
+
         $scope.addScene = function() {
             var scene = new Scene();
             scene.orderNum = sceneTempOrderNum;
@@ -126,24 +130,24 @@ angular.module('mainModule.controllers', ['angularFileUpload'])
             if($scope.trip.scenes.length % 2 == 1) {
                 var scenePage = [];
                 scenePage.push(scene);
-                $scope.scenePages.push(scenePage);
+                $scope.trip.scenePages.push(scenePage);
             } else {
-                $scope.scenePages[$scope.scenePages.length-1].push(scene);
+                $scope.trip.scenePages[$scope.trip.scenePages.length-1].push(scene);
             }
         };
         $scope.removeScene = function(scene) {
             var index = $scope.trip.scenes.indexOf(scene);
             $scope.trip.scenes.splice(index, 1);
 
-            $scope.scenePages = [];
+            $scope.trip.scenePages = [];
             for(var i = 0; i < $scope.trip.scenes.length; i++) {
                 var targetScene = $scope.trip.scenes[i]
                 if(i % 2 == 0) {
                     var scenePage = [];
                     scenePage.push(targetScene);
-                    $scope.scenePages.push(scenePage);
+                    $scope.trip.scenePages.push(scenePage);
                 } else {
-                    $scope.scenePages[$scope.scenePages.length-1].push(targetScene);
+                    $scope.trip.scenePages[$scope.trip.scenePages.length-1].push(targetScene);
                 }
             }
         };

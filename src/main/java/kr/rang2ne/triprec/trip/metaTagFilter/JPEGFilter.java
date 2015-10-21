@@ -33,12 +33,12 @@ public class JPEGFilter implements MetaTagFilter {
 
     @Override
     public Double getPictureLatitude() {
-        return null;
+        return getGPSValue("GPS-"+2);
     }
 
     @Override
     public Double getPictureLongitude() {
-        return null;
+        return getGPSValue("GPS-"+4);
     }
 
     @Override

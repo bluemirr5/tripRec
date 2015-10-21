@@ -25,6 +25,7 @@ var Trip = (function () {
         this.modTime=null;
         this.published=false;
         this.scenes=[];
+        this.scenePages=[];
     };
 })();
 
